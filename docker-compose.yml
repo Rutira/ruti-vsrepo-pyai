@@ -1,0 +1,17 @@
+version: "3.9"
+services:
+  yolo:
+    build: .
+    ports:
+      - "8000:8000"  # Перенаправляем порт 8000 хоста на порт 8000 контейнера
+    volumes:
+      - .:/app  # Монтируем текущую директорию хоста в контейнер (для отслеживания изменений кода)
+    environment:
+      - CUDA_VISIBLE_DEVICES=0  # Указываем, какие GPU использовать (если есть)
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
